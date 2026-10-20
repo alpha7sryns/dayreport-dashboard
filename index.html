@@ -34,7 +34,6 @@
             'float-reverse': 'floatRev 15s ease-in-out infinite',
             'spin-slow': 'spin 18s linear infinite',
             'glow-pulse': 'glowPulse 3s ease-in-out infinite',
-            'wave-sway': 'sway 4s ease-in-out infinite',
           },
           keyframes: {
             float: {
@@ -48,10 +47,6 @@
             glowPulse: {
               '0%, 100%': { opacity: '0.4', transform: 'scale(1)' },
               '50%': { opacity: '0.8', transform: 'scale(1.06)' },
-            },
-            sway: {
-              '0%, 100%': { transform: 'translateY(0px)' },
-              '50%': { transform: 'translateY(-5px)' },
             }
           }
         }
@@ -89,7 +84,8 @@
       -webkit-backdrop-filter: blur(24px);
       border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.24));
       box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.28), inset 0 1px 1px 0 rgba(255, 255, 255, 0.15);
-      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, background 0.35s ease, border-color 0.35s ease;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, background 0.25s ease;
+      will-change: transform;
     }
     .glass-input {
       background: var(--input-bg, rgba(255, 255, 255, 0.15));
@@ -100,16 +96,21 @@
       background: var(--pill-bg, rgba(255, 255, 255, 0.16));
       backdrop-filter: blur(12px);
       border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.2));
-      transition: all 0.25s ease;
+      transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+      will-change: transform;
     }
 
-    /* Interactive hover lifts */
+    /* Fixed Lift without Edge Cropping */
+    .hover-lift {
+      position: relative;
+    }
     .hover-lift:hover {
       transform: translateY(-4px);
-      box-shadow: 0 22px 42px -8px rgba(0, 0, 0, 0.32);
+      box-shadow: 0 24px 45px -8px rgba(0, 0, 0, 0.35);
+      z-index: 10;
     }
 
-    /* Fluid Animated Background Mesh */
+    /* Fluid Animated Background */
     .bg-gradient-wrapper {
       background-size: 260% 260% !important;
       animation: fluidMotion 18s ease-in-out infinite alternate;
@@ -148,7 +149,7 @@
                   linear-gradient(135deg, #08051a 0%, #1a1438 45%, #2d1b4e 85%, #05030f 100%);
     }
 
-    /* Daytime High-Contrast Typography */
+    /* Day Mode Contrast Typography */
     body.is-day-mode {
       color: #0f172a;
     }
@@ -220,29 +221,28 @@
       stroke-dasharray: 4, 4;
     }
 
-    /* Staggered load-in animation */
+    /* Staggered entrance animation */
     @keyframes fadeSlideUp {
       from {
         opacity: 0;
-        transform: translateY(18px) scale(0.98);
+        transform: translateY(14px);
       }
       to {
         opacity: 1;
-        transform: translateY(0px) scale(1);
+        transform: translateY(0px);
       }
     }
 
     .animate-in-card {
-      animation: fadeSlideUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+      animation: fadeSlideUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
     }
 
-    /* Weather Icon floating pulse */
     .icon-float {
       animation: iconHover 3.2s ease-in-out infinite alternate;
     }
     @keyframes iconHover {
       0% { transform: translateY(0px) rotate(0deg); }
-      100% { transform: translateY(-6px) rotate(3deg); }
+      100% { transform: translateY(-5px) rotate(3deg); }
     }
   </style>
 </head>
@@ -263,7 +263,7 @@
     <header class="flex flex-col md:flex-row items-center justify-between gap-4 mb-8">
       <div class="flex items-center gap-3 w-full md:w-auto justify-between">
         <div class="flex items-center gap-3 group cursor-pointer">
-          <div class="w-11 h-11 rounded-2xl glass-panel flex items-center justify-center text-amber-400 shadow-lg text-xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+          <div class="w-11 h-11 rounded-2xl glass-panel flex items-center justify-center text-amber-400 shadow-lg text-xl group-hover:scale-105 transition-all duration-300">
             <i class="fa-solid fa-cloud-sun"></i>
           </div>
           <div>
@@ -299,26 +299,26 @@
           id="geoBtn" 
           onclick="getUserLocation()" 
           title="Use current location" 
-          class="glass-panel hover:bg-white/25 active:scale-90 hover:rotate-12 transition-all duration-300 p-3 rounded-2xl flex items-center justify-center text-white/90 shadow-lg w-12 h-12 flex-shrink-0"
+          class="glass-panel hover:bg-white/25 active:scale-90 transition-all duration-300 p-3 rounded-2xl flex items-center justify-center text-white/90 shadow-lg w-12 h-12 flex-shrink-0"
         >
           <i class="fa-solid fa-location-crosshairs text-base"></i>
         </button>
       </div>
     </header>
 
-    <!-- Quick Access City Chips -->
-    <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-3 mb-6">
+    <!-- Quick Access City Chips (Added vertical padding to prevent top/bottom edge clipping) -->
+    <div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-2 mb-6 -my-2">
       <span class="text-xs uppercase font-bold tracking-wider text-white/60 whitespace-nowrap mr-1 flex items-center gap-1">
-        <i class="fa-solid fa-bolt text-amber-400 text-[10px] animate-bounce"></i> Popular:
+        <i class="fa-solid fa-bolt text-amber-400 text-[10px]"></i> Popular:
       </span>
-      <button onclick="fetchWeather('London')" class="glass-pill px-3.5 py-1.5 rounded-full text-xs font-medium hover:scale-105 active:scale-95 hover:bg-white/30 whitespace-nowrap">London</button>
-      <button onclick="fetchWeather('New York')" class="glass-pill px-3.5 py-1.5 rounded-full text-xs font-medium hover:scale-105 active:scale-95 hover:bg-white/30 whitespace-nowrap">New York</button>
-      <button onclick="fetchWeather('Tokyo')" class="glass-pill px-3.5 py-1.5 rounded-full text-xs font-medium hover:scale-105 active:scale-95 hover:bg-white/30 whitespace-nowrap">Tokyo</button>
-      <button onclick="fetchWeather('Paris')" class="glass-pill px-3.5 py-1.5 rounded-full text-xs font-medium hover:scale-105 active:scale-95 hover:bg-white/30 whitespace-nowrap">Paris</button>
-      <button onclick="fetchWeather('Sydney')" class="glass-pill px-3.5 py-1.5 rounded-full text-xs font-medium hover:scale-105 active:scale-95 hover:bg-white/30 whitespace-nowrap">Sydney</button>
-      <button onclick="fetchWeather('Delhi, India')" class="glass-pill px-3.5 py-1.5 rounded-full text-xs font-medium hover:scale-105 active:scale-95 hover:bg-white/30 whitespace-nowrap">Delhi</button>
-      <button onclick="fetchWeather('Dubai')" class="glass-pill px-3.5 py-1.5 rounded-full text-xs font-medium hover:scale-105 active:scale-95 hover:bg-white/30 whitespace-nowrap">Dubai</button>
-      <button onclick="fetchWeather('Singapore')" class="glass-pill px-3.5 py-1.5 rounded-full text-xs font-medium hover:scale-105 active:scale-95 hover:bg-white/30 whitespace-nowrap">Singapore</button>
+      <button onclick="fetchWeather('London')" class="glass-pill px-3.5 py-1.5 rounded-full text-xs font-medium hover:-translate-y-0.5 active:scale-95 hover:bg-white/30 whitespace-nowrap">London</button>
+      <button onclick="fetchWeather('New York')" class="glass-pill px-3.5 py-1.5 rounded-full text-xs font-medium hover:-translate-y-0.5 active:scale-95 hover:bg-white/30 whitespace-nowrap">New York</button>
+      <button onclick="fetchWeather('Tokyo')" class="glass-pill px-3.5 py-1.5 rounded-full text-xs font-medium hover:-translate-y-0.5 active:scale-95 hover:bg-white/30 whitespace-nowrap">Tokyo</button>
+      <button onclick="fetchWeather('Paris')" class="glass-pill px-3.5 py-1.5 rounded-full text-xs font-medium hover:-translate-y-0.5 active:scale-95 hover:bg-white/30 whitespace-nowrap">Paris</button>
+      <button onclick="fetchWeather('Sydney')" class="glass-pill px-3.5 py-1.5 rounded-full text-xs font-medium hover:-translate-y-0.5 active:scale-95 hover:bg-white/30 whitespace-nowrap">Sydney</button>
+      <button onclick="fetchWeather('Delhi, India')" class="glass-pill px-3.5 py-1.5 rounded-full text-xs font-medium hover:-translate-y-0.5 active:scale-95 hover:bg-white/30 whitespace-nowrap">Delhi</button>
+      <button onclick="fetchWeather('Dubai')" class="glass-pill px-3.5 py-1.5 rounded-full text-xs font-medium hover:-translate-y-0.5 active:scale-95 hover:bg-white/30 whitespace-nowrap">Dubai</button>
+      <button onclick="fetchWeather('Singapore')" class="glass-pill px-3.5 py-1.5 rounded-full text-xs font-medium hover:-translate-y-0.5 active:scale-95 hover:bg-white/30 whitespace-nowrap">Singapore</button>
     </div>
 
     <!-- Loading Skeleton Placeholder -->
@@ -339,15 +339,15 @@
       <!-- Top Row: Current Weather & Highlight Metrics -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
-        <!-- Main Hero Weather Card -->
-        <section class="lg:col-span-7 xl:col-span-8 glass-panel hover-lift rounded-3xl p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden group animate-in-card">
-          <div class="absolute -top-24 -right-24 w-60 h-60 bg-white/10 rounded-full blur-2xl pointer-events-none animate-glow-pulse"></div>
+        <!-- Main Hero Weather Card (Removed overflow-hidden to fix hover edge cut) -->
+        <section class="lg:col-span-7 xl:col-span-8 glass-panel hover-lift rounded-3xl p-6 sm:p-8 flex flex-col justify-between relative group animate-in-card">
+          <div class="absolute -top-16 -right-16 w-52 h-52 bg-white/10 rounded-full blur-2xl pointer-events-none animate-glow-pulse"></div>
 
           <div>
             <div class="flex flex-wrap items-start justify-between gap-4 mb-6">
               <div>
                 <div class="flex items-center gap-2">
-                  <h2 id="cityName" class="text-3xl sm:text-4xl font-extrabold tracking-tight transition-transform duration-300">--</h2>
+                  <h2 id="cityName" class="text-3xl sm:text-4xl font-extrabold tracking-tight">--</h2>
                   <span id="countryCode" class="text-xs px-2.5 py-1 rounded-md bg-white/20 font-bold uppercase tracking-wider">--</span>
                 </div>
                 <p id="localDateTime" class="text-sm text-white/80 mt-1 flex items-center gap-2">
@@ -356,7 +356,7 @@
               </div>
 
               <!-- Weather Condition Badge -->
-              <div class="flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-black/20 border border-white/10 backdrop-blur-md transition-all duration-300 group-hover:bg-black/30">
+              <div class="flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-black/20 border border-white/10 backdrop-blur-md">
                 <span id="conditionIconWrap" class="w-8 h-8 flex items-center justify-center icon-float">
                   <img id="weatherIconSmall" src="" alt="Condition" class="w-full h-full object-contain filter drop-shadow">
                 </span>
@@ -493,7 +493,7 @@
         <div class="glass-panel hover-lift p-4 rounded-2xl flex flex-col justify-between hover:bg-white/20 transition-all cursor-pointer group">
           <div class="flex items-center justify-between text-white/70 text-xs mb-2">
             <span>Humidity</span>
-            <i class="fa-solid fa-droplet text-cyan-400 group-hover:scale-125 transition-transform"></i>
+            <i class="fa-solid fa-droplet text-cyan-400 group-hover:scale-115 transition-transform"></i>
           </div>
           <div id="metricHumidity" class="text-2xl font-bold">--%</div>
           <div id="humidityStatus" class="text-[11px] text-white/60 mt-1">Normal</div>
@@ -502,7 +502,7 @@
         <div class="glass-panel hover-lift p-4 rounded-2xl flex flex-col justify-between hover:bg-white/20 transition-all cursor-pointer group">
           <div class="flex items-center justify-between text-white/70 text-xs mb-2">
             <span>Wind</span>
-            <i id="windCompassIcon" class="fa-solid fa-location-arrow text-teal-400 transition-transform duration-700 ease-out group-hover:scale-125"></i>
+            <i id="windCompassIcon" class="fa-solid fa-location-arrow text-teal-400 transition-transform duration-700 ease-out group-hover:scale-115"></i>
           </div>
           <div id="metricWind" class="text-2xl font-bold">--</div>
           <div id="metricWindDir" class="text-[11px] text-white/60 mt-1">--</div>
@@ -511,7 +511,7 @@
         <div class="glass-panel hover-lift p-4 rounded-2xl flex flex-col justify-between hover:bg-white/20 transition-all cursor-pointer group">
           <div class="flex items-center justify-between text-white/70 text-xs mb-2">
             <span>UV Index</span>
-            <i class="fa-solid fa-sun text-yellow-400 group-hover:rotate-90 transition-transform duration-500"></i>
+            <i class="fa-solid fa-sun text-yellow-400 group-hover:rotate-45 transition-transform duration-300"></i>
           </div>
           <div id="metricUV" class="text-2xl font-bold">--</div>
           <div id="uvStatus" class="text-[11px] text-emerald-400 font-semibold mt-1">Low</div>
@@ -520,7 +520,7 @@
         <div class="glass-panel hover-lift p-4 rounded-2xl flex flex-col justify-between hover:bg-white/20 transition-all cursor-pointer group">
           <div class="flex items-center justify-between text-white/70 text-xs mb-2">
             <span>Pressure</span>
-            <i class="fa-solid fa-gauge-high text-indigo-400 group-hover:scale-125 transition-transform"></i>
+            <i class="fa-solid fa-gauge-high text-indigo-400 group-hover:scale-115 transition-transform"></i>
           </div>
           <div id="metricPressure" class="text-2xl font-bold">--</div>
           <div class="text-[11px] text-white/60 mt-1">hPa</div>
@@ -529,7 +529,7 @@
         <div class="glass-panel hover-lift p-4 rounded-2xl flex flex-col justify-between hover:bg-white/20 transition-all cursor-pointer group">
           <div class="flex items-center justify-between text-white/70 text-xs mb-2">
             <span>Visibility</span>
-            <i class="fa-solid fa-eye text-sky-400 group-hover:scale-125 transition-transform"></i>
+            <i class="fa-solid fa-eye text-sky-400 group-hover:scale-115 transition-transform"></i>
           </div>
           <div id="metricVisibility" class="text-2xl font-bold">--</div>
           <div id="visibilityStatus" class="text-[11px] text-white/60 mt-1">Clear</div>
@@ -538,16 +538,16 @@
         <div class="glass-panel hover-lift p-4 rounded-2xl flex flex-col justify-between hover:bg-white/20 transition-all cursor-pointer group">
           <div class="flex items-center justify-between text-white/70 text-xs mb-2">
             <span>Cloud Cover</span>
-            <i class="fa-solid fa-cloud text-gray-400 group-hover:scale-125 transition-transform"></i>
+            <i class="fa-solid fa-cloud text-gray-400 group-hover:scale-115 transition-transform"></i>
           </div>
           <div id="metricClouds" class="text-2xl font-bold">--%</div>
           <div id="cloudStatus" class="text-[11px] text-white/60 mt-1">Scattered</div>
         </div>
       </section>
 
-      <!-- Hourly Forecast Carousel -->
+      <!-- Hourly Forecast Carousel (Added vertical padding to prevent clip during card transform) -->
       <section class="glass-panel hover-lift rounded-3xl p-6 animate-in-card" style="animation-delay: 260ms;">
-        <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center justify-between mb-2">
           <h3 class="font-bold text-base tracking-wide flex items-center gap-2">
             <i class="fa-regular fa-clock text-amber-400"></i> Hourly Forecast (Next 24h)
           </h3>
@@ -561,7 +561,7 @@
           </div>
         </div>
 
-        <div id="hourlyContainer" class="flex gap-4 overflow-x-auto custom-scroll pb-3 pt-1 scroll-smooth"></div>
+        <div id="hourlyContainer" class="flex gap-4 overflow-x-auto custom-scroll py-3 scroll-smooth"></div>
       </section>
 
       <!-- 5-Day Extended Forecast -->
@@ -679,7 +679,6 @@
       return q;
     }
 
-    // Number counting animation for smooth metric transitions
     function animateValue(id, end, suffix = '') {
       const el = document.getElementById(id);
       if (!el) return;
@@ -688,7 +687,7 @@
         return;
       }
       const start = parseInt(el.textContent) || 0;
-      const duration = 750;
+      const duration = 650;
       let startTimestamp = null;
       const step = (timestamp) => {
         if (!startTimestamp) startTimestamp = timestamp;
@@ -908,15 +907,16 @@
         const isCurrent = idx === 0;
 
         const card = document.createElement('div');
-        card.className = `flex flex-col items-center justify-between min-w-[80px] p-3 rounded-2xl transition-all duration-300 cursor-pointer ${
+        // Replaced scale-105 with subtle hover translation and higher z-index to stop clipping
+        card.className = `flex flex-col items-center justify-between min-w-[80px] p-3 rounded-2xl transition-all duration-200 cursor-pointer relative ${
           isCurrent 
-            ? 'bg-white/30 border border-white/40 shadow-lg scale-105' 
-            : 'bg-white/5 border border-white/10 hover:bg-white/20 hover:-translate-y-1'
+            ? 'bg-white/30 border border-white/40 shadow-lg -translate-y-1' 
+            : 'bg-white/5 border border-white/10 hover:bg-white/20 hover:-translate-y-1 hover:shadow-md'
         }`;
 
         card.innerHTML = `
           <span class="text-xs font-semibold ${isCurrent ? 'text-amber-400 font-bold' : 'text-white/70'}">${timeLabel}</span>
-          <img src="${iconUrl}" alt="${hour.condition.text}" class="w-10 h-10 my-2 object-contain filter drop-shadow hover:scale-110 transition-transform duration-200">
+          <img src="${iconUrl}" alt="${hour.condition.text}" class="w-10 h-10 my-2 object-contain filter drop-shadow">
           <span class="text-sm font-bold">${temp}°</span>
           <div class="flex items-center gap-1 text-[10px] text-white/60 mt-1">
             <i class="fa-solid fa-droplet text-[9px] text-sky-400"></i>
@@ -948,7 +948,8 @@
         const rainChance = dayData.day.daily_chance_of_rain || 0;
 
         const card = document.createElement('div');
-        card.className = `p-4 rounded-2xl glass-pill flex flex-col justify-between hover:scale-[1.03] hover:-translate-y-1 hover:bg-white/25 transition-all duration-300 cursor-pointer ${
+        // Using -translate-y-1 without excessive scaling to keep edges smooth
+        card.className = `p-4 rounded-2xl glass-pill flex flex-col justify-between hover:-translate-y-1 hover:shadow-xl hover:bg-white/25 transition-all duration-200 cursor-pointer relative ${
           idx === 0 ? 'border-amber-400/50 bg-white/25 ring-1 ring-amber-400/30' : ''
         }`;
 
@@ -958,7 +959,7 @@
             <span class="text-[11px] text-white/60">${dateFormatted}</span>
           </div>
           <div class="flex items-center justify-center my-3">
-            <img src="${iconUrl}" alt="${dayData.day.condition.text}" class="w-12 h-12 object-contain filter drop-shadow hover:scale-115 transition-transform duration-200">
+            <img src="${iconUrl}" alt="${dayData.day.condition.text}" class="w-12 h-12 object-contain filter drop-shadow">
           </div>
           <div class="text-center">
             <p class="text-xs text-white/80 font-medium truncate mb-2">${dayData.day.condition.text}</p>
