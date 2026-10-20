@@ -6,7 +6,7 @@
   <title>SkyCast - Modern Weather Experience</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Font Awesome for clean weather & system icons -->
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,17 +30,17 @@
             }
           },
           animation: {
-            'float-slow': 'float 8s ease-in-out infinite',
-            'pulse-subtle': 'pulseSubtle 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'float-slow': 'float 10s ease-in-out infinite',
+            'float-reverse': 'floatRev 12s ease-in-out infinite',
           },
           keyframes: {
             float: {
-              '0%, 100%': { transform: 'translateY(0px) scale(1)' },
-              '50%': { transform: 'translateY(-10px) scale(1.02)' },
+              '0%, 100%': { transform: 'translate(0px, 0px) scale(1)' },
+              '50%': { transform: 'translate(30px, -25px) scale(1.08)' },
             },
-            pulseSubtle: {
-              '0%, 100%': { opacity: '0.85' },
-              '50%': { opacity: '0.45' },
+            floatRev: {
+              '0%, 100%': { transform: 'translate(0px, 0px) scale(1)' },
+              '50%': { transform: 'translate(-35px, 20px) scale(1.05)' },
             }
           }
         }
@@ -49,7 +49,6 @@
   </script>
 
   <style>
-    /* Custom Scrollbar for sleek horizontal scroll */
     .no-scrollbar::-webkit-scrollbar {
       display: none;
     }
@@ -72,66 +71,146 @@
       background: rgba(255, 255, 255, 0.4);
     }
 
-    /* Glassmorphism utility classes */
+    /* Glassmorphism Utilities */
     .glass-panel {
-      background: rgba(255, 255, 255, 0.12);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.22);
-      box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.25), 0 0 1px 1px rgba(255, 255, 255, 0.1) inset;
+      background: var(--glass-bg, rgba(255, 255, 255, 0.14));
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.24));
+      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.28), inset 0 1px 1px 0 rgba(255, 255, 255, 0.15);
     }
     .glass-input {
-      background: rgba(255, 255, 255, 0.15);
+      background: var(--input-bg, rgba(255, 255, 255, 0.15));
       backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.25);
+      border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.25));
     }
     .glass-pill {
-      background: rgba(255, 255, 255, 0.16);
+      background: var(--pill-bg, rgba(255, 255, 255, 0.16));
       backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.2));
     }
 
-    /* Dynamic weather backdrop transitions */
+    /* Constant Fluid Animated Background */
     .bg-gradient-wrapper {
-      transition: background 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+      background-size: 260% 260% !important;
+      animation: fluidMotion 16s ease-in-out infinite alternate;
+      transition: background 1.2s ease-in-out;
     }
 
-    /* Themes */
+    @keyframes fluidMotion {
+      0% { background-position: 0% 20%; }
+      50% { background-position: 100% 80%; }
+      100% { background-position: 30% 100%; }
+    }
+
+    /* Rich, Balanced Themes */
     .theme-clear-day {
-      background: radial-gradient(circle at 15% 15%, #ffd452 0%, transparent 40%), linear-gradient(135deg, #1d72b8 0%, #3a9fd8 45%, #7ec6f8 100%);
+      background: radial-gradient(circle at 12% 15%, #ffb834 0%, transparent 40%),
+                  linear-gradient(135deg, #0d3b66 0%, #1e5f8a 35%, #3a88b8 70%, #0d2238 100%);
     }
     .theme-clear-night {
-      background: radial-gradient(circle at 80% 20%, #90a0d9 0%, transparent 35%), linear-gradient(135deg, #090c1f 0%, #13193a 50%, #1e1e4a 100%);
+      background: radial-gradient(circle at 85% 18%, #4a5d99 0%, transparent 35%),
+                  linear-gradient(135deg, #05070e 0%, #0c1024 45%, #151b3b 80%, #030408 100%);
     }
     .theme-cloudy {
-      background: radial-gradient(circle at 30% 20%, #a0aec0 0%, transparent 45%), linear-gradient(135deg, #2d3748 0%, #4a5568 55%, #718096 100%);
+      background: radial-gradient(circle at 25% 20%, #718096 0%, transparent 45%),
+                  linear-gradient(135deg, #111827 0%, #242e3f 50%, #3f4e66 85%, #0b101b 100%);
     }
     .theme-rainy {
-      background: radial-gradient(circle at 50% 10%, #4a6fa5 0%, transparent 40%), linear-gradient(135deg, #182848 0%, #203a43 50%, #2c5364 100%);
+      background: radial-gradient(circle at 50% 15%, #2c4d6f 0%, transparent 40%),
+                  linear-gradient(135deg, #0b1325 0%, #162a45 45%, #1f3e5c 80%, #070e1c 100%);
     }
     .theme-snowy {
-      background: radial-gradient(circle at 75% 25%, #e2e8f0 0%, transparent 40%), linear-gradient(135deg, #4b6cb7 0%, #758ebd 50%, #b0c7de 100%);
+      background: radial-gradient(circle at 75% 25%, #cbd5e1 0%, transparent 40%),
+                  linear-gradient(135deg, #1e293b 0%, #334155 45%, #64748b 85%, #0f172a 100%);
     }
     .theme-thunder {
-      background: radial-gradient(circle at 40% 30%, #584b7a 0%, transparent 40%), linear-gradient(135deg, #0f0c29 0%, #24243e 50%, #302b63 100%);
+      background: radial-gradient(circle at 40% 30%, #58337a 0%, transparent 40%),
+                  linear-gradient(135deg, #08051a 0%, #1a1438 45%, #2d1b4e 85%, #05030f 100%);
     }
-    
-    /* Sun arc path */
+
+    /* Day Mode Contrast Typography adjustments */
+    body.is-day-mode {
+      color: #0f172a;
+    }
+    body.is-day-mode .glass-panel {
+      --glass-bg: rgba(255, 255, 255, 0.42);
+      --glass-border: rgba(255, 255, 255, 0.55);
+      box-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.15), inset 0 1px 1px 0 rgba(255, 255, 255, 0.6);
+    }
+    body.is-day-mode .glass-input {
+      --input-bg: rgba(255, 255, 255, 0.45);
+      --glass-border: rgba(255, 255, 255, 0.6);
+      color: #0f172a;
+    }
+    body.is-day-mode .glass-input::placeholder {
+      color: rgba(15, 23, 42, 0.5);
+    }
+    body.is-day-mode .glass-pill {
+      --pill-bg: rgba(255, 255, 255, 0.45);
+      --glass-border: rgba(255, 255, 255, 0.5);
+      color: #0f172a;
+    }
+    body.is-day-mode .text-white {
+      color: #0f172a !important;
+    }
+    body.is-day-mode .text-white\/90 {
+      color: #1e293b !important;
+    }
+    body.is-day-mode .text-white\/80 {
+      color: #334155 !important;
+    }
+    body.is-day-mode .text-white\/70 {
+      color: #475569 !important;
+    }
+    body.is-day-mode .text-white\/60 {
+      color: #64748b !important;
+    }
+    body.is-day-mode .text-white\/50 {
+      color: #64748b !important;
+    }
+    body.is-day-mode .text-white\/40 {
+      color: #94a3b8 !important;
+    }
+    body.is-day-mode .border-white\/10,
+    body.is-day-mode .border-white\/15 {
+      border-color: rgba(15, 23, 42, 0.12) !important;
+    }
+    body.is-day-mode .bg-white\/5 {
+      background-color: rgba(255, 255, 255, 0.35) !important;
+    }
+    body.is-day-mode .bg-white\/10 {
+      background-color: rgba(255, 255, 255, 0.4) !important;
+    }
+    body.is-day-mode .bg-white\/20 {
+      background-color: rgba(255, 255, 255, 0.55) !important;
+    }
+    body.is-day-mode .bg-black\/20,
+    body.is-day-mode .bg-black\/25 {
+      background-color: rgba(255, 255, 255, 0.45) !important;
+      border-color: rgba(255, 255, 255, 0.5) !important;
+    }
+    body.is-day-mode .sun-arc-path {
+      stroke: rgba(15, 23, 42, 0.2);
+    }
+    body.is-day-mode line {
+      stroke: rgba(15, 23, 42, 0.25) !important;
+    }
+
     .sun-arc-path {
       stroke-dasharray: 4, 4;
     }
   </style>
 </head>
-<body class="font-sans antialiased text-white min-h-screen selection:bg-white/20 selection:text-white">
+<body id="bodyRoot" class="font-sans antialiased text-white min-h-screen selection:bg-white/20">
 
-  <!-- Background Animated Elements -->
+  <!-- Background Animated Elements with Continuous Fluid Movement -->
   <div id="bgWrapper" class="bg-gradient-wrapper fixed inset-0 -z-10 theme-clear-day">
-    <!-- Ambient glowing orbs -->
-    <div class="absolute top-10 left-10 w-96 h-96 bg-white/10 rounded-full blur-3xl pointer-events-none animate-float-slow"></div>
-    <div class="absolute bottom-10 right-10 w-96 h-96 bg-blue-300/10 rounded-full blur-3xl pointer-events-none animate-float-slow" style="animation-delay: -4s;"></div>
+    <div class="absolute -top-10 -left-10 w-[520px] h-[520px] bg-white/10 rounded-full blur-3xl pointer-events-none animate-float-slow"></div>
+    <div class="absolute bottom-0 right-0 w-[550px] h-[550px] bg-blue-500/10 rounded-full blur-3xl pointer-events-none animate-float-reverse"></div>
   </div>
 
-  <!-- Toast Notification Container -->
+  <!-- Toast Notification Container (for errors/warnings only) -->
   <div id="toastContainer" class="fixed top-5 right-5 z-50 flex flex-col gap-3 pointer-events-none"></div>
 
   <!-- Main Container -->
@@ -141,7 +220,7 @@
     <header class="flex flex-col md:flex-row items-center justify-between gap-4 mb-8">
       <div class="flex items-center gap-3 w-full md:w-auto justify-between">
         <div class="flex items-center gap-3">
-          <div class="w-11 h-11 rounded-2xl glass-panel flex items-center justify-center text-amber-300 shadow-lg text-xl">
+          <div class="w-11 h-11 rounded-2xl glass-panel flex items-center justify-center text-amber-400 shadow-lg text-xl">
             <i class="fa-solid fa-cloud-sun"></i>
           </div>
           <div>
@@ -150,10 +229,10 @@
           </div>
         </div>
 
-        <!-- Unit Switcher Button -->
+        <!-- Unit Switcher -->
         <div class="flex items-center bg-black/25 backdrop-blur-md p-1 rounded-2xl border border-white/15">
-          <button id="unitC" onclick="setUnit('C')" class="px-3 py-1.5 rounded-xl text-xs font-semibold transition-all duration-300 bg-white/30 text-white shadow-sm">°C</button>
-          <button id="unitF" onclick="setUnit('F')" class="px-3 py-1.5 rounded-xl text-xs font-semibold transition-all duration-300 text-white/70 hover:text-white">°F</button>
+          <button id="unitC" onclick="setUnit('C')" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all duration-300 bg-white/40 text-current shadow-sm">°C</button>
+          <button id="unitF" onclick="setUnit('F')" class="px-3 py-1.5 rounded-xl text-xs font-semibold transition-all duration-300 opacity-70 hover:opacity-100">°F</button>
         </div>
       </div>
 
@@ -165,7 +244,7 @@
             type="text" 
             id="searchInput" 
             placeholder="Search city, region, or zip code..." 
-            class="w-full glass-input text-sm text-white placeholder-white/50 pl-11 pr-10 py-3 rounded-2xl outline-none focus:ring-2 focus:ring-white/40 transition-all duration-200 shadow-inner"
+            class="w-full glass-input text-sm text-current placeholder-white/50 pl-11 pr-10 py-3 rounded-2xl outline-none focus:ring-2 focus:ring-white/40 transition-all duration-200 shadow-inner"
             autocomplete="off"
           />
           <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-3.5 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition">
@@ -177,7 +256,7 @@
           id="geoBtn" 
           onclick="getUserLocation()" 
           title="Use current location" 
-          class="glass-panel hover:bg-white/20 active:scale-95 transition-all p-3 rounded-2xl flex items-center justify-center text-white/90 hover:text-white shadow-lg w-12 h-12 flex-shrink-0"
+          class="glass-panel hover:bg-white/25 active:scale-95 transition-all p-3 rounded-2xl flex items-center justify-center text-white/90 shadow-lg w-12 h-12 flex-shrink-0"
         >
           <i class="fa-solid fa-location-crosshairs text-base"></i>
         </button>
@@ -187,7 +266,7 @@
     <!-- Quick Access City Chips -->
     <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-3 mb-6">
       <span class="text-xs uppercase font-bold tracking-wider text-white/60 whitespace-nowrap mr-1 flex items-center gap-1">
-        <i class="fa-solid fa-bolt text-amber-300 text-[10px]"></i> Popular:
+        <i class="fa-solid fa-bolt text-amber-400 text-[10px]"></i> Popular:
       </span>
       <button onclick="fetchWeather('London')" class="glass-pill px-3.5 py-1.5 rounded-full text-xs font-medium hover:bg-white/30 transition whitespace-nowrap">London</button>
       <button onclick="fetchWeather('New York')" class="glass-pill px-3.5 py-1.5 rounded-full text-xs font-medium hover:bg-white/30 transition whitespace-nowrap">New York</button>
@@ -217,9 +296,8 @@
       <!-- Top Row: Current Weather & Highlight Metrics -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
-        <!-- Main Hero Weather Card (8 cols) -->
+        <!-- Main Hero Weather Card -->
         <section class="lg:col-span-7 xl:col-span-8 glass-panel rounded-3xl p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden group">
-          <!-- Subtle corner glow -->
           <div class="absolute -top-24 -right-24 w-60 h-60 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
 
           <div>
@@ -243,7 +321,7 @@
               </div>
             </div>
 
-            <!-- Temperature & Visual representation -->
+            <!-- Temperature & Details -->
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 my-4">
               <div class="flex items-baseline gap-2">
                 <span id="currentTemp" class="text-7xl sm:text-8xl font-black tracking-tighter">--</span>
@@ -256,11 +334,11 @@
                   <span id="feelsLike" class="font-bold text-base">--°</span>
                 </div>
                 <div class="flex items-center gap-3 text-xs sm:text-sm font-medium">
-                  <span class="flex items-center gap-1 text-emerald-300">
+                  <span class="flex items-center gap-1 text-emerald-400">
                     <i class="fa-solid fa-arrow-up text-xs"></i> <span id="tempMax">--°</span>
                   </span>
                   <span class="text-white/40">•</span>
-                  <span class="flex items-center gap-1 text-sky-200">
+                  <span class="flex items-center gap-1 text-sky-300">
                     <i class="fa-solid fa-arrow-down text-xs"></i> <span id="tempMin">--°</span>
                   </span>
                 </div>
@@ -268,7 +346,7 @@
             </div>
           </div>
 
-          <!-- Bottom Summary Strip in Hero Card -->
+          <!-- Bottom Summary Strip -->
           <div class="pt-6 mt-4 border-t border-white/15 grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
             <div class="p-2 rounded-2xl bg-white/5">
               <div class="text-white/60 text-xs mb-1">Wind</div>
@@ -289,57 +367,52 @@
           </div>
         </section>
 
-        <!-- Right Side: Sun Cycle & Air Quality Card (4 cols) -->
+        <!-- Right Side: Sun Cycle & Air Quality Card -->
         <section class="lg:col-span-5 xl:col-span-4 flex flex-col gap-6">
 
           <!-- Sun Cycle / Solar Progress -->
           <div class="glass-panel rounded-3xl p-6 flex flex-col justify-between">
             <div class="flex items-center justify-between mb-4">
               <h3 class="font-bold text-sm tracking-wide text-white/90 flex items-center gap-2">
-                <i class="fa-solid fa-sun text-amber-300"></i> Sun & Daylight
+                <i class="fa-solid fa-sun text-amber-400"></i> Sun & Daylight
               </h3>
-              <span id="dayLength" class="text-xs text-white/70 bg-white/10 px-2 py-0.5 rounded-full">-- hrs daylight</span>
+              <span id="dayLength" class="text-xs text-white/80 bg-white/10 px-2 py-0.5 rounded-full">-- hrs daylight</span>
             </div>
 
-            <!-- Sun Arc Visualizer SVG -->
             <div class="relative w-full h-24 flex items-center justify-center my-1">
               <svg viewBox="0 0 200 90" class="w-full h-full max-w-[240px] overflow-visible">
-                <!-- Semicircle Horizon Path -->
-                <path d="M 20 80 A 80 70 0 0 1 180 80" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2.5" class="sun-arc-path" />
-                <!-- Daylight progressed path -->
-                <path id="sunProgressPath" d="M 20 80 A 80 70 0 0 1 180 80" fill="none" stroke="#fcd34d" stroke-width="3" stroke-linecap="round" stroke-dasharray="250" stroke-dashoffset="125" />
-                <!-- Sun Dot Marker -->
-                <circle id="sunDot" cx="100" cy="10" r="7" fill="#fbbf24" stroke="#ffffff" stroke-width="2.5" class="shadow-lg filter drop-shadow-[0_0_8px_rgba(251,191,36,0.8)]" />
-                <!-- Horizon line -->
+                <path d="M 20 80 A 80 70 0 0 1 180 80" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="2.5" class="sun-arc-path" />
+                <path id="sunProgressPath" d="M 20 80 A 80 70 0 0 1 180 80" fill="none" stroke="#f59e0b" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="250" stroke-dashoffset="125" />
+                <circle id="sunDot" cx="100" cy="10" r="7" fill="#f59e0b" stroke="#ffffff" stroke-width="2.5" class="shadow-lg filter drop-shadow-[0_0_8px_rgba(245,158,11,0.8)]" />
                 <line x1="10" y1="80" x2="190" y2="80" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" />
               </svg>
             </div>
 
             <div class="flex items-center justify-between text-xs text-white/80 pt-2 border-t border-white/10 mt-2">
               <div class="flex items-center gap-2">
-                <i class="fa-solid fa-arrow-up-from-bracket text-amber-300"></i>
+                <i class="fa-solid fa-arrow-up-from-bracket text-amber-400"></i>
                 <div>
                   <div class="text-[10px] text-white/50 uppercase">Sunrise</div>
-                  <div id="sunriseTime" class="font-bold text-sm text-white">--:--</div>
+                  <div id="sunriseTime" class="font-bold text-sm">--:--</div>
                 </div>
               </div>
               <div class="flex items-center gap-2 text-right">
                 <div>
                   <div class="text-[10px] text-white/50 uppercase">Sunset</div>
-                  <div id="sunsetTime" class="font-bold text-sm text-white">--:--</div>
+                  <div id="sunsetTime" class="font-bold text-sm">--:--</div>
                 </div>
                 <i class="fa-solid fa-arrow-right-to-bracket rotate-90 text-orange-400"></i>
               </div>
             </div>
           </div>
 
-          <!-- Air Quality & UV Card -->
+          <!-- Air Quality Card -->
           <div class="glass-panel rounded-3xl p-6 flex flex-col justify-between">
             <div class="flex items-center justify-between mb-3">
               <h3 class="font-bold text-sm tracking-wide text-white/90 flex items-center gap-2">
-                <i class="fa-solid fa-lungs text-emerald-300"></i> Air Quality Index
+                <i class="fa-solid fa-lungs text-emerald-400"></i> Air Quality Index
               </h3>
-              <span id="aqiBadge" class="text-xs px-2.5 py-0.5 rounded-full font-bold bg-emerald-500/30 text-emerald-200 border border-emerald-400/30">Moderate</span>
+              <span id="aqiBadge" class="text-xs px-2.5 py-0.5 rounded-full font-bold bg-emerald-500/30 text-emerald-300 border border-emerald-400/30">Moderate</span>
             </div>
 
             <div class="flex items-baseline gap-2 mb-2">
@@ -349,7 +422,6 @@
             
             <p id="aqiAdvice" class="text-xs text-white/70 line-clamp-2 mb-3">Air quality is acceptable for most people.</p>
 
-            <!-- Detailed pollutants chips -->
             <div class="grid grid-cols-4 gap-1.5 text-center text-[11px] pt-3 border-t border-white/10">
               <div class="bg-white/5 rounded-xl py-1 px-1">
                 <div class="text-white/50 text-[9px]">PM2.5</div>
@@ -375,61 +447,55 @@
 
       <!-- Weather Details Metrics Grid -->
       <section class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-        <!-- Humidity -->
-        <div class="glass-panel p-4 rounded-2xl flex flex-col justify-between hover:bg-white/15 transition-all">
+        <div class="glass-panel p-4 rounded-2xl flex flex-col justify-between hover:bg-white/20 transition-all">
           <div class="flex items-center justify-between text-white/70 text-xs mb-2">
             <span>Humidity</span>
-            <i class="fa-solid fa-droplet text-cyan-300"></i>
+            <i class="fa-solid fa-droplet text-cyan-400"></i>
           </div>
           <div id="metricHumidity" class="text-2xl font-bold">--%</div>
           <div id="humidityStatus" class="text-[11px] text-white/60 mt-1">Normal</div>
         </div>
 
-        <!-- Wind Speed & Direction -->
-        <div class="glass-panel p-4 rounded-2xl flex flex-col justify-between hover:bg-white/15 transition-all">
+        <div class="glass-panel p-4 rounded-2xl flex flex-col justify-between hover:bg-white/20 transition-all">
           <div class="flex items-center justify-between text-white/70 text-xs mb-2">
             <span>Wind</span>
-            <i id="windCompassIcon" class="fa-solid fa-location-arrow text-teal-300 transition-transform duration-500"></i>
+            <i id="windCompassIcon" class="fa-solid fa-location-arrow text-teal-400 transition-transform duration-500"></i>
           </div>
           <div id="metricWind" class="text-2xl font-bold">--</div>
           <div id="metricWindDir" class="text-[11px] text-white/60 mt-1">--</div>
         </div>
 
-        <!-- UV Index -->
-        <div class="glass-panel p-4 rounded-2xl flex flex-col justify-between hover:bg-white/15 transition-all">
+        <div class="glass-panel p-4 rounded-2xl flex flex-col justify-between hover:bg-white/20 transition-all">
           <div class="flex items-center justify-between text-white/70 text-xs mb-2">
             <span>UV Index</span>
-            <i class="fa-solid fa-sun text-yellow-300"></i>
+            <i class="fa-solid fa-sun text-yellow-400"></i>
           </div>
           <div id="metricUV" class="text-2xl font-bold">--</div>
-          <div id="uvStatus" class="text-[11px] text-emerald-300 font-semibold mt-1">Low</div>
+          <div id="uvStatus" class="text-[11px] text-emerald-400 font-semibold mt-1">Low</div>
         </div>
 
-        <!-- Pressure -->
-        <div class="glass-panel p-4 rounded-2xl flex flex-col justify-between hover:bg-white/15 transition-all">
+        <div class="glass-panel p-4 rounded-2xl flex flex-col justify-between hover:bg-white/20 transition-all">
           <div class="flex items-center justify-between text-white/70 text-xs mb-2">
             <span>Pressure</span>
-            <i class="fa-solid fa-gauge-high text-indigo-300"></i>
+            <i class="fa-solid fa-gauge-high text-indigo-400"></i>
           </div>
           <div id="metricPressure" class="text-2xl font-bold">--</div>
           <div class="text-[11px] text-white/60 mt-1">hPa</div>
         </div>
 
-        <!-- Visibility -->
-        <div class="glass-panel p-4 rounded-2xl flex flex-col justify-between hover:bg-white/15 transition-all">
+        <div class="glass-panel p-4 rounded-2xl flex flex-col justify-between hover:bg-white/20 transition-all">
           <div class="flex items-center justify-between text-white/70 text-xs mb-2">
             <span>Visibility</span>
-            <i class="fa-solid fa-eye text-sky-300"></i>
+            <i class="fa-solid fa-eye text-sky-400"></i>
           </div>
           <div id="metricVisibility" class="text-2xl font-bold">--</div>
           <div id="visibilityStatus" class="text-[11px] text-white/60 mt-1">Clear</div>
         </div>
 
-        <!-- Cloud Cover -->
-        <div class="glass-panel p-4 rounded-2xl flex flex-col justify-between hover:bg-white/15 transition-all">
+        <div class="glass-panel p-4 rounded-2xl flex flex-col justify-between hover:bg-white/20 transition-all">
           <div class="flex items-center justify-between text-white/70 text-xs mb-2">
             <span>Cloud Cover</span>
-            <i class="fa-solid fa-cloud text-gray-300"></i>
+            <i class="fa-solid fa-cloud text-gray-400"></i>
           </div>
           <div id="metricClouds" class="text-2xl font-bold">--%</div>
           <div id="cloudStatus" class="text-[11px] text-white/60 mt-1">Scattered</div>
@@ -440,7 +506,7 @@
       <section class="glass-panel rounded-3xl p-6">
         <div class="flex items-center justify-between mb-4">
           <h3 class="font-bold text-base tracking-wide flex items-center gap-2">
-            <i class="fa-regular fa-clock text-amber-300"></i> Hourly Forecast (Next 24h)
+            <i class="fa-regular fa-clock text-amber-400"></i> Hourly Forecast (Next 24h)
           </h3>
           <div class="flex items-center gap-2">
             <button onclick="scrollHourly('left')" class="p-2 rounded-xl bg-white/10 hover:bg-white/20 active:scale-95 transition text-xs" title="Scroll Left">
@@ -452,47 +518,37 @@
           </div>
         </div>
 
-        <div id="hourlyContainer" class="flex gap-4 overflow-x-auto custom-scroll pb-3 pt-1 scroll-smooth">
-          <!-- Dynamically populated hourly items -->
-        </div>
+        <div id="hourlyContainer" class="flex gap-4 overflow-x-auto custom-scroll pb-3 pt-1 scroll-smooth"></div>
       </section>
 
       <!-- 5-Day Extended Forecast -->
       <section class="glass-panel rounded-3xl p-6">
         <div class="flex items-center justify-between mb-5">
           <h3 class="font-bold text-base tracking-wide flex items-center gap-2">
-            <i class="fa-regular fa-calendar-days text-sky-300"></i> Extended Multi-Day Forecast
+            <i class="fa-regular fa-calendar-days text-sky-400"></i> Extended Multi-Day Forecast
           </h3>
           <span class="text-xs text-white/60">5-Day Outlook</span>
         </div>
 
-        <div id="dailyForecastContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-          <!-- Dynamically populated daily cards -->
-        </div>
+        <div id="dailyForecastContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4"></div>
       </section>
 
     </main>
 
-    <!-- Footer -->
-    <footer class="mt-12 text-center text-xs text-white/60 pb-6 flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-white/10 pt-6">
-      <p>Powered by <a href="https://www.weatherapi.com/" target="_blank" rel="noopener noreferrer" class="text-white hover:underline font-semibold">WeatherAPI.com</a></p>
-      <p class="flex items-center gap-1.5">
-        <span>Designed with precision & glassmorphism</span>
-        <span class="text-red-400">♥</span>
-      </p>
+    <!-- Clean Minimal Footer -->
+    <footer class="mt-12 text-center text-xs text-white/60 pb-6 flex items-center justify-center border-t border-white/10 pt-6">
+      <p>Powered by <a href="https://www.weatherapi.com/" target="_blank" rel="noopener noreferrer" class="hover:underline font-semibold">WeatherAPI.com</a></p>
     </footer>
 
   </div>
 
   <script>
-    // Global Constants & State
     const API_KEY = '05249d09f691480aa3132620262010';
-    let currentUnit = 'C'; // 'C' or 'F'
-    let weatherData = null; // cached API payload
-    let searchDebounceTimer = null;
+    let currentUnit = 'C';
+    let weatherData = null;
 
-    // DOM Elements
     const bgWrapper = document.getElementById('bgWrapper');
+    const bodyRoot = document.getElementById('bodyRoot');
     const searchInput = document.getElementById('searchInput');
     const clearSearchBtn = document.getElementById('clearSearchBtn');
     const unitC = document.getElementById('unitC');
@@ -501,12 +557,9 @@
     const loadingSkeleton = document.getElementById('loadingSkeleton');
     const weatherContent = document.getElementById('weatherContent');
 
-    // Initialize application
     window.addEventListener('DOMContentLoaded', () => {
-      // Default initial city
       fetchWeather('New York');
 
-      // Setup Search Input behavior
       searchInput.addEventListener('input', (e) => {
         if (e.target.value.trim().length > 0) {
           clearSearchBtn.classList.remove('hidden');
@@ -525,21 +578,18 @@
       });
     });
 
-    // Clear Search Input
     function clearSearch() {
       searchInput.value = '';
       clearSearchBtn.classList.add('hidden');
       searchInput.focus();
     }
 
-    // Geolocation Support
     function getUserLocation() {
       if (!navigator.geolocation) {
         showToast('Geolocation is not supported by your browser.', 'error');
         return;
       }
 
-      showToast('Detecting your location...', 'info');
       const geoBtn = document.getElementById('geoBtn');
       geoBtn.classList.add('animate-spin');
 
@@ -561,17 +611,16 @@
       );
     }
 
-    // Switch temperature units
     function setUnit(unit) {
       if (currentUnit === unit) return;
       currentUnit = unit;
 
       if (unit === 'C') {
-        unitC.className = 'px-3 py-1.5 rounded-xl text-xs font-semibold transition-all duration-300 bg-white/30 text-white shadow-sm';
-        unitF.className = 'px-3 py-1.5 rounded-xl text-xs font-semibold transition-all duration-300 text-white/70 hover:text-white';
+        unitC.className = 'px-3 py-1.5 rounded-xl text-xs font-bold transition-all duration-300 bg-white/40 text-current shadow-sm';
+        unitF.className = 'px-3 py-1.5 rounded-xl text-xs font-semibold transition-all duration-300 opacity-70 hover:opacity-100';
       } else {
-        unitF.className = 'px-3 py-1.5 rounded-xl text-xs font-semibold transition-all duration-300 bg-white/30 text-white shadow-sm';
-        unitC.className = 'px-3 py-1.5 rounded-xl text-xs font-semibold transition-all duration-300 text-white/70 hover:text-white';
+        unitF.className = 'px-3 py-1.5 rounded-xl text-xs font-bold transition-all duration-300 bg-white/40 text-current shadow-sm';
+        unitC.className = 'px-3 py-1.5 rounded-xl text-xs font-semibold transition-all duration-300 opacity-70 hover:opacity-100';
       }
 
       if (weatherData) {
@@ -579,10 +628,8 @@
       }
     }
 
-    // Fetch Weather Data from WeatherAPI
     async function fetchWeather(query) {
       showLoading(true);
-
       const endpoint = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${encodeURIComponent(query)}&days=5&aqi=yes`;
 
       try {
@@ -597,11 +644,9 @@
         const data = await response.json();
         weatherData = data;
         renderWeather(data);
-        showToast(`Loaded weather for ${data.location.name}`, 'success');
       } catch (err) {
         console.error('Fetch error:', err);
-        showToast(err.message || 'Network error occurred. Please check connection.', 'error');
-        // If first fetch or offline, provide fallback mock demo so user experience is not blank
+        showToast(err.message || 'Network error occurred.', 'error');
         if (!weatherData) {
           loadFallbackData();
         }
@@ -610,7 +655,6 @@
       }
     }
 
-    // Loading State Handler
     function showLoading(isLoading) {
       if (isLoading) {
         loadingSkeleton.classList.remove('hidden');
@@ -621,17 +665,15 @@
       }
     }
 
-    // Render Full Weather Interface
     function renderWeather(data) {
       const loc = data.location;
       const curr = data.current;
       const forecastDays = data.forecast.forecastday;
       const today = forecastDays[0];
 
-      // Update Dynamic Background based on Condition & Day/Night
+      // Dynamic theme and day-mode text color adjustment
       updateDynamicTheme(curr.condition.text, curr.is_day);
 
-      // Hero Location & Time
       document.getElementById('cityName').textContent = loc.name;
       document.getElementById('countryCode').textContent = loc.country;
       
@@ -639,12 +681,10 @@
       const options = { weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
       document.getElementById('localDateTime').innerHTML = `<i class="fa-regular fa-clock text-xs"></i> <span>${localDate.toLocaleDateString('en-US', options)} (Local)</span>`;
 
-      // Condition text & icon
       document.getElementById('weatherCondition').textContent = curr.condition.text;
       const iconUrl = curr.condition.icon.startsWith('//') ? `https:${curr.condition.icon}` : curr.condition.icon;
       document.getElementById('weatherIconSmall').src = iconUrl;
 
-      // Hero Temperatures
       const tempVal = currentUnit === 'C' ? Math.round(curr.temp_c) : Math.round(curr.temp_f);
       const feelsLikeVal = currentUnit === 'C' ? Math.round(curr.feelslike_c) : Math.round(curr.feelslike_f);
       const maxVal = currentUnit === 'C' ? Math.round(today.day.maxtemp_c) : Math.round(today.day.maxtemp_f);
@@ -656,13 +696,11 @@
       document.getElementById('tempMax').textContent = `${maxVal}°`;
       document.getElementById('tempMin').textContent = `${minVal}°`;
 
-      // Hero Summary Strip
       document.getElementById('windSummary').textContent = `${curr.wind_kph} km/h`;
       document.getElementById('humiditySummary').textContent = `${curr.humidity}%`;
       document.getElementById('visibilitySummary').textContent = `${curr.vis_km} km`;
       document.getElementById('precipSummary').textContent = `${curr.precip_mm} mm`;
 
-      // Secondary Grid Metrics
       document.getElementById('metricHumidity').textContent = `${curr.humidity}%`;
       document.getElementById('humidityStatus').textContent = getHumidityDescription(curr.humidity);
 
@@ -684,25 +722,16 @@
       document.getElementById('metricClouds').textContent = `${curr.cloud}%`;
       document.getElementById('cloudStatus').textContent = curr.cloud < 20 ? 'Clear sky' : curr.cloud < 60 ? 'Partly cloudy' : 'Overcast';
 
-      // Sun & Daylight Calculation
       renderSunProgress(today.astro, loc.localtime);
-
-      // Air Quality Details
       renderAirQuality(curr.air_quality);
-
-      // Hourly Forecast (24 Hours starting from current local hour)
       renderHourlyForecast(forecastDays, loc.localtime);
-
-      // 5-Day Forecast
       renderDailyForecast(forecastDays);
     }
 
-    // Helper: Sun Cycle and Solar Path
     function renderSunProgress(astro, localTimeString) {
       document.getElementById('sunriseTime').textContent = astro.sunrise;
       document.getElementById('sunsetTime').textContent = astro.sunset;
 
-      // Calculate approximate day progress
       const parseTimeToMinutes = (timeStr) => {
         if (!timeStr) return 0;
         const [time, modifier] = timeStr.trim().split(' ');
@@ -721,7 +750,6 @@
       const hoursDaylight = (totalDaylightMin / 60).toFixed(1);
       document.getElementById('dayLength').textContent = `${hoursDaylight} hrs daylight`;
 
-      // Progress ratio (0 to 1)
       let progress = 0;
       if (currentMin <= sunriseMin) {
         progress = 0;
@@ -731,8 +759,6 @@
         progress = (currentMin - sunriseMin) / (sunsetMin - sunriseMin);
       }
 
-      // Position the Sun Dot along the SVG arch: M 20 80 A 80 70 0 0 1 180 80
-      // Parameterized ellipse angle from PI (left, sunrise) to 0 (right, sunset)
       const angle = Math.PI - (progress * Math.PI);
       const cx = 100 + 80 * Math.cos(angle);
       const cy = 80 - 70 * Math.sin(angle);
@@ -741,13 +767,11 @@
       sunDot.setAttribute('cx', cx);
       sunDot.setAttribute('cy', cy);
 
-      // Stroke dashoffset for SVG arc (total length is ~250)
       const totalLen = 250;
       const offset = totalLen - (progress * totalLen);
       document.getElementById('sunProgressPath').setAttribute('stroke-dashoffset', offset);
     }
 
-    // Helper: Air Quality Indicators
     function renderAirQuality(aqi) {
       if (!aqi) {
         document.getElementById('aqiScore').textContent = 'N/A';
@@ -755,7 +779,6 @@
         return;
       }
 
-      // US EPA index: 1 = Good, 2 = Moderate, 3 = Unhealthy for sensitive groups, 4 = Unhealthy, 5 = Very Unhealthy, 6 = Hazardous
       const epaIndex = aqi['us-epa-index'] || 1;
       const scoreElement = document.getElementById('aqiScore');
       const badgeElement = document.getElementById('aqiBadge');
@@ -764,12 +787,12 @@
       scoreElement.textContent = epaIndex;
 
       const aqiConfig = {
-        1: { label: 'Good', color: 'bg-emerald-500/30 text-emerald-200 border-emerald-400/40', advice: 'Air quality is satisfactory and poses little or no risk.' },
-        2: { label: 'Moderate', color: 'bg-yellow-500/30 text-yellow-200 border-yellow-400/40', advice: 'Air quality is acceptable for most people.' },
-        3: { label: 'Sensitive', color: 'bg-orange-500/30 text-orange-200 border-orange-400/40', advice: 'Sensitive groups should consider limiting prolonged outdoor exertion.' },
-        4: { label: 'Unhealthy', color: 'bg-red-500/30 text-red-200 border-red-400/40', advice: 'Everyone may begin to experience health effects.' },
-        5: { label: 'Very Unhealthy', color: 'bg-purple-500/30 text-purple-200 border-purple-400/40', advice: 'Health alert: increased risk of health impacts for everyone.' },
-        6: { label: 'Hazardous', color: 'bg-rose-900/50 text-rose-200 border-rose-600', advice: 'Emergency conditions: avoid outdoor activities.' }
+        1: { label: 'Good', color: 'bg-emerald-500/30 text-emerald-300 border-emerald-400/40', advice: 'Air quality is satisfactory and poses little or no risk.' },
+        2: { label: 'Moderate', color: 'bg-yellow-500/30 text-yellow-300 border-yellow-400/40', advice: 'Air quality is acceptable for most people.' },
+        3: { label: 'Sensitive', color: 'bg-orange-500/30 text-orange-300 border-orange-400/40', advice: 'Sensitive groups should limit outdoor exertion.' },
+        4: { label: 'Unhealthy', color: 'bg-red-500/30 text-red-300 border-red-400/40', advice: 'Everyone may begin to experience health effects.' },
+        5: { label: 'Very Unhealthy', color: 'bg-purple-500/30 text-purple-300 border-purple-400/40', advice: 'Health alert: high risk of impacts for everyone.' },
+        6: { label: 'Hazardous', color: 'bg-rose-900/50 text-rose-300 border-rose-600', advice: 'Emergency conditions: avoid outdoor activities.' }
       };
 
       const currentAqi = aqiConfig[epaIndex] || aqiConfig[2];
@@ -777,14 +800,12 @@
       badgeElement.className = `text-xs px-2.5 py-0.5 rounded-full font-bold border ${currentAqi.color}`;
       adviceElement.textContent = currentAqi.advice;
 
-      // Pollutants values rounded
       document.getElementById('pm25Val').textContent = aqi.pm2_5 ? aqi.pm2_5.toFixed(1) : '--';
       document.getElementById('pm10Val').textContent = aqi.pm10 ? aqi.pm10.toFixed(1) : '--';
       document.getElementById('o3Val').textContent = aqi.o3 ? aqi.o3.toFixed(1) : '--';
       document.getElementById('no2Val').textContent = aqi.no2 ? aqi.no2.toFixed(1) : '--';
     }
 
-    // Render 24-Hour Forecast
     function renderHourlyForecast(forecastDays, localTimeString) {
       const container = document.getElementById('hourlyContainer');
       container.innerHTML = '';
@@ -792,12 +813,10 @@
       const localDate = new Date(localTimeString.replace(/-/g, '/'));
       const currentHour = localDate.getHours();
 
-      // Gather next 24 hours from day 0 and day 1
       const allHours = [];
       if (forecastDays[0]) allHours.push(...forecastDays[0].hour);
       if (forecastDays[1]) allHours.push(...forecastDays[1].hour);
 
-      // Find current hour index
       const startIndex = forecastDays[0].hour.findIndex(h => {
         const hDate = new Date(h.time.replace(/-/g, '/'));
         return hDate.getHours() === currentHour;
@@ -815,16 +834,16 @@
         const card = document.createElement('div');
         card.className = `flex flex-col items-center justify-between min-w-[80px] p-3 rounded-2xl transition-all duration-300 ${
           isCurrent 
-            ? 'bg-white/25 border border-white/40 shadow-lg scale-105' 
+            ? 'bg-white/30 border border-white/40 shadow-lg scale-105' 
             : 'bg-white/5 border border-white/10 hover:bg-white/15'
         }`;
 
         card.innerHTML = `
-          <span class="text-xs font-semibold ${isCurrent ? 'text-amber-300' : 'text-white/70'}">${timeLabel}</span>
+          <span class="text-xs font-semibold ${isCurrent ? 'text-amber-400 font-bold' : 'text-white/70'}">${timeLabel}</span>
           <img src="${iconUrl}" alt="${hour.condition.text}" class="w-10 h-10 my-2 object-contain filter drop-shadow">
           <span class="text-sm font-bold">${temp}°</span>
           <div class="flex items-center gap-1 text-[10px] text-white/60 mt-1">
-            <i class="fa-solid fa-droplet text-[9px] text-sky-300"></i>
+            <i class="fa-solid fa-droplet text-[9px] text-sky-400"></i>
             <span>${hour.chance_of_rain}%</span>
           </div>
         `;
@@ -833,18 +852,12 @@
       });
     }
 
-    // Scroll Hourly Forecast Carousel
     function scrollHourly(direction) {
       const container = document.getElementById('hourlyContainer');
       const scrollAmount = 260;
-      if (direction === 'left') {
-        container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-      } else {
-        container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-      }
+      container.scrollBy({ left: direction === 'left' ? -scrollAmount : scrollAmount, behavior: 'smooth' });
     }
 
-    // Render 5-Day Forecast
     function renderDailyForecast(forecastDays) {
       const container = document.getElementById('dailyForecastContainer');
       container.innerHTML = '';
@@ -859,13 +872,13 @@
         const rainChance = dayData.day.daily_chance_of_rain || 0;
 
         const card = document.createElement('div');
-        card.className = `p-4 rounded-2xl glass-pill flex flex-col justify-between hover:bg-white/20 transition-all duration-300 ${
-          idx === 0 ? 'border-amber-300/40 bg-white/20' : ''
+        card.className = `p-4 rounded-2xl glass-pill flex flex-col justify-between hover:bg-white/25 transition-all duration-300 ${
+          idx === 0 ? 'border-amber-400/50 bg-white/25 ring-1 ring-amber-400/30' : ''
         }`;
 
         card.innerHTML = `
           <div class="flex items-center justify-between">
-            <span class="font-bold text-sm tracking-wide ${idx === 0 ? 'text-amber-300' : 'text-white'}">${dayName}</span>
+            <span class="font-bold text-sm tracking-wide ${idx === 0 ? 'text-amber-400' : 'text-current'}">${dayName}</span>
             <span class="text-[11px] text-white/60">${dateFormatted}</span>
           </div>
           <div class="flex items-center justify-center my-3">
@@ -874,11 +887,11 @@
           <div class="text-center">
             <p class="text-xs text-white/80 font-medium truncate mb-2">${dayData.day.condition.text}</p>
             <div class="flex items-center justify-center gap-2 text-sm font-bold">
-              <span class="text-white">${maxT}°</span>
+              <span class="text-current">${maxT}°</span>
               <span class="text-white/40">/</span>
               <span class="text-white/60 font-normal">${minT}°</span>
             </div>
-            <div class="flex items-center justify-center gap-1.5 text-[11px] text-sky-200 mt-2 bg-white/5 py-1 rounded-xl">
+            <div class="flex items-center justify-center gap-1.5 text-[11px] text-sky-400 mt-2 bg-white/5 py-1 rounded-xl">
               <i class="fa-solid fa-cloud-rain text-[10px]"></i>
               <span>${rainChance}% rain</span>
             </div>
@@ -889,7 +902,6 @@
       });
     }
 
-    // Dynamic Theme Selector based on condition text and day/night
     function updateDynamicTheme(conditionText, isDay) {
       const text = conditionText.toLowerCase();
       let themeClass = isDay ? 'theme-clear-day' : 'theme-clear-night';
@@ -907,9 +919,15 @@
       }
 
       bgWrapper.className = `bg-gradient-wrapper fixed inset-0 -z-10 ${themeClass}`;
+
+      // Toggle dark contrast font for daytime vs light for night
+      if (isDay) {
+        bodyRoot.classList.add('is-day-mode');
+      } else {
+        bodyRoot.classList.remove('is-day-mode');
+      }
     }
 
-    // Descriptive text helpers
     function getHumidityDescription(hum) {
       if (hum < 30) return 'Dry environment';
       if (hum <= 60) return 'Comfortable humidity';
@@ -917,26 +935,23 @@
     }
 
     function getUVDescription(uv) {
-      if (uv <= 2) return { label: 'Low', colorClass: 'text-emerald-300' };
-      if (uv <= 5) return { label: 'Moderate', colorClass: 'text-yellow-300' };
+      if (uv <= 2) return { label: 'Low', colorClass: 'text-emerald-400' };
+      if (uv <= 5) return { label: 'Moderate', colorClass: 'text-yellow-400' };
       if (uv <= 7) return { label: 'High', colorClass: 'text-orange-400' };
       if (uv <= 10) return { label: 'Very High', colorClass: 'text-red-400' };
       return { label: 'Extreme', colorClass: 'text-purple-400' };
     }
 
-    // Toast Notification System
     function showToast(message, type = 'info') {
       const toast = document.createElement('div');
-      
       const icons = {
-        success: 'fa-circle-check text-emerald-400',
         error: 'fa-circle-exclamation text-rose-400',
         warning: 'fa-triangle-exclamation text-amber-400',
         info: 'fa-circle-info text-sky-400'
       };
 
       toast.className = 'flex items-center gap-3 px-4 py-3 rounded-2xl glass-panel shadow-2xl text-xs sm:text-sm font-medium transition-all duration-300 transform translate-y-2 opacity-0 pointer-events-auto border-l-4 ' +
-        (type === 'error' ? 'border-l-rose-500' : type === 'success' ? 'border-l-emerald-500' : 'border-l-sky-500');
+        (type === 'error' ? 'border-l-rose-500' : 'border-l-sky-500');
 
       toast.innerHTML = `
         <i class="fa-solid ${icons[type] || icons.info} text-base"></i>
@@ -944,20 +959,14 @@
       `;
 
       toastContainer.appendChild(toast);
+      requestAnimationFrame(() => toast.classList.remove('translate-y-2', 'opacity-0'));
 
-      // Trigger animation
-      requestAnimationFrame(() => {
-        toast.classList.remove('translate-y-2', 'opacity-0');
-      });
-
-      // Auto dismiss
       setTimeout(() => {
         toast.classList.add('opacity-0', 'translate-x-4');
         setTimeout(() => toast.remove(), 350);
       }, 4000);
     }
 
-    // Fallback Mock Data in case of offline / quota limit
     function loadFallbackData() {
       const fallback = {
         location: { name: "New York", country: "United States of America", localtime: "2026-10-20 08:30" },
@@ -1012,7 +1021,6 @@
       };
       weatherData = fallback;
       renderWeather(fallback);
-      showToast('Loaded offline preview data.', 'info');
     }
   </script>
 </body>
